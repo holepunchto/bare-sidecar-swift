@@ -87,9 +87,27 @@ bare__setup_ipc(void) {
 #endif
 }
 
+// Foundation on Linux spawns the process with the signal mask of the spawning
+// thread, which for a Dispatch or Swift concurrency thread blocks most signals,
+// including those the host terminates the process with.
+static void
+bare__reset_signal_mask(void) {
+#ifndef _WIN32
+  int err;
+
+  sigset_t mask;
+  sigemptyset(&mask);
+
+  err = sigprocmask(SIG_SETMASK, &mask, NULL);
+  assert(err == 0);
+#endif
+}
+
 int
 main(int argc, char *argv[]) {
   int err;
+
+  bare__reset_signal_mask();
 
   bare__setup_ipc();
 
