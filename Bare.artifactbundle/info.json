@@ -3,7 +3,7 @@
   "artifacts": {
     "bare": {
       "type": "executable",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "variants": [
         {
           "path": "darwin-arm64/bare",
