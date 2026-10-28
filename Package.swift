@@ -7,7 +7,7 @@ let bare: Target =
     name: "Bare",
     url:
       "https://github.com/holepunchto/bare-sidecar-swift/releases/download/v0.1.0/Bare.artifactbundle.zip",
-    checksum: "0000000000000000000000000000000000000000000000000000000000000000"
+    checksum: "d34c0e5a127c1bf95689f03dc9cd04e14ac96e35ae844a4b17181e71f2ec1980"
   )
   : .binaryTarget(name: "Bare", path: "Bare.artifactbundle")
 
