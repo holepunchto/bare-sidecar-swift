@@ -6,7 +6,7 @@ Start and manage Bare sidecar processes from Swift. The Swift counterpart of [ba
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/holepunchto/bare-sidecar-swift", .upToNextMinor(from: "0.1.0"))
+  .package(url: "https://github.com/holepunchto/bare-sidecar-swift", from: "<tag>")
 ]
 ```
 
