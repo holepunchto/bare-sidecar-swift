@@ -32,7 +32,7 @@ jobs:
         with:
           platform: ${{ matrix.platform }}
           arch: ${{ matrix.arch }}
-          prefix: bare.artifactbundle
+          prefix: Bare.artifactbundle
           upload: true
   release:
     runs-on: ubuntu-24.04
@@ -44,11 +44,11 @@ jobs:
       - uses: holepunchto/actions/checkout@v1
       - uses: holepunchto/actions/download-prebuilds@v1
         with:
-          prefix: bare.artifactbundle
+          prefix: Bare.artifactbundle
       - id: bundle
         uses: holepunchto/actions/create-artifact-bundle@v1
         with:
-          path: bare.artifactbundle
+          path: Bare.artifactbundle
       - uses: holepunchto/actions/create-github-release@v1
         with:
           draft: true

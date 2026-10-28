@@ -3,4 +3,4 @@
 build/
 node_modules
 lib/*.bundle.*
-bare.artifactbundle.zip
+Bare.artifactbundle.zip

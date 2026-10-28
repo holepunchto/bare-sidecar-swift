@@ -40,7 +40,7 @@ jobs:
         with:
           platform: ${{ matrix.platform }}
           arch: ${{ matrix.arch }}
-          prefix: bare.artifactbundle
+          prefix: Bare.artifactbundle
       - run: swift test
         env:
           BARE_SIDECAR_LOCAL: 1
