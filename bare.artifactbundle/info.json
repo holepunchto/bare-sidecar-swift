@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0",
+  "artifacts": {
+    "bare": {
+      "type": "executable",
+      "version": "0.0.0",
+      "variants": [
+        {
+          "path": "darwin-arm64/bare",
+          "supportedTriples": [
+            "arm64-apple-macosx"
+          ]
+        },
+        {
+          "path": "darwin-x64/bare",
+          "supportedTriples": [
+            "x86_64-apple-macosx"
+          ]
+        },
+        {
+          "path": "linux-arm64/bare",
+          "supportedTriples": [
+            "aarch64-unknown-linux-gnu"
+          ]
+        },
+        {
+          "path": "linux-x64/bare",
+          "supportedTriples": [
+            "x86_64-unknown-linux-gnu"
+          ]
+        }
+      ]
+    }
+  }
+}
