@@ -4,12 +4,12 @@ import PackageDescription
 let bare: Target =
   Context.environment["BARE_SIDECAR_LOCAL"] == nil
   ? .binaryTarget(
-    name: "bare",
+    name: "Bare",
     url:
-      "https://github.com/holepunchto/bare-sidecar-swift/releases/download/v0.1.0/bare.artifactbundle.zip",
+      "https://github.com/holepunchto/bare-sidecar-swift/releases/download/v0.1.0/Bare.artifactbundle.zip",
     checksum: "0000000000000000000000000000000000000000000000000000000000000000"
   )
-  : .binaryTarget(name: "bare", path: "bare.artifactbundle")
+  : .binaryTarget(name: "Bare", path: "Bare.artifactbundle")
 
 let package = Package(
   name: "BareSidecar",
@@ -19,7 +19,7 @@ let package = Package(
   ],
   targets: [
     bare,
-    .plugin(name: "BareExecutable", capability: .buildTool(), dependencies: ["bare"]),
+    .plugin(name: "BareExecutable", capability: .buildTool(), dependencies: ["Bare"]),
     .target(name: "BareSidecar", plugins: ["BareExecutable"]),
     .testTarget(
       name: "BareSidecarTests",
