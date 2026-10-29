@@ -2,17 +2,11 @@
 
 Start and manage Bare sidecar processes from Swift. The Swift counterpart of [bare-sidecar](https://github.com/holepunchto/bare-sidecar): it runs a Bare entry point in a child process with an IPC connection to it, exposed as `Bare.IPC` inside the process. The Bare executable is shipped as a binary target of the package.
 
-## Installation
-
 ```swift
 dependencies: [
   .package(url: "https://github.com/holepunchto/bare-sidecar-swift", from: "<tag>")
 ]
-```
 
-Then add `BareSidecar` to the dependencies of your target:
-
-```swift
 .product(name: "BareSidecar", package: "bare-sidecar-swift")
 ```
 
