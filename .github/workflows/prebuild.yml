@@ -35,7 +35,7 @@ jobs:
           prefix: Bare.artifactbundle
           upload: true
   release:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     needs: prebuild
