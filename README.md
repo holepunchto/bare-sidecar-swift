@@ -33,15 +33,13 @@ Where `app.js` is a Bare entry point using `Bare.IPC`:
 Bare.IPC.on("data", (data) => Bare.IPC.write(data));
 ```
 
-## Versions
+### Versions
 
-`Sidecar.versions` lists the versions of the components bundled with the package, such as `bare` for the Bare executable:
+`Sidecar.versions` holds the versions of the components bundled with the sidecar, such as the Bare runtime:
 
 ```swift
-print(Sidecar.versions["bare"]!)
+Sidecar.versions["bare"]  // "1.36.2"
 ```
-
-They come from `versions.json` at the root of the package, which is also where the build reads the version of Bare to bundle.
 
 ## License
 
