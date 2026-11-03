@@ -12,9 +12,11 @@ final class Connection: @unchecked Sendable {
   private let fd: Int32
   private let writes = DispatchQueue(label: "to.holepunch.bare-sidecar.write")
   private let continuation: AsyncThrowingStream<Data, Error>.Continuation
+  private let exited: @Sendable () async -> Void
 
-  init(_ fd: Int32) {
+  init(_ fd: Int32, exited: @escaping @Sendable () async -> Void) {
     self.fd = fd
+    self.exited = exited
 
     (data, continuation) = AsyncThrowingStream.makeStream()
 
@@ -47,7 +49,9 @@ final class Connection: @unchecked Sendable {
     var buffer = [UInt8](repeating: 0, count: 65536)
 
     while true {
-      let read = buffer.withUnsafeMutableBytes { recv(fd, $0.baseAddress, $0.count, 0) }
+      let read = buffer.withUnsafeMutableBytes {
+        waitReadable() ? recv(fd, $0.baseAddress, $0.count, 0) : -1
+      }
 
       if read > 0 {
         continuation.yield(Data(buffer[0..<read]))
@@ -57,16 +61,31 @@ final class Connection: @unchecked Sendable {
         // The process exits once the connection has closed, which takes both
         // ends to have ended. On Linux, a process that exits with data still
         // unread resets the connection rather than ending it.
-        if read == 0 || errno == ECONNRESET {
-          _ = shutdown(fd, Int32(SHUT_WR))
-          continuation.finish()
-        } else {
-          continuation.finish(throwing: POSIXError.current)
+        let error: Error? = read == 0 || errno == ECONNRESET ? nil : POSIXError.current
+
+        _ = shutdown(fd, Int32(SHUT_WR))
+
+        // The data ends only once the process has exited, so that readers
+        // reaching the end don't leave it unreaped.
+        Task {
+          await exited()
+          continuation.finish(throwing: error)
         }
 
         return
       }
     }
+  }
+
+  // A blocking `recv()` on macOS may miss the end of the connection, which `poll()` does not.
+  private func waitReadable() -> Bool {
+    var readable = pollfd(fd: fd, events: Int16(POLLIN), revents: 0)
+
+    while poll(&readable, 1, -1) == -1 {
+      if errno != EINTR { return false }
+    }
+
+    return true
   }
 
   // Data written once the process has closed its end, such as while exiting,
