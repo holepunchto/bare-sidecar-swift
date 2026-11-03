@@ -33,6 +33,14 @@ Where `app.js` is a Bare entry point using `Bare.IPC`:
 Bare.IPC.on("data", (data) => Bare.IPC.write(data));
 ```
 
+### Versions
+
+`Sidecar.versions` holds the versions of the components bundled with the sidecar, such as the Bare runtime:
+
+```swift
+Sidecar.versions["bare"]  // "1.36.2"
+```
+
 ## License
 
 Apache-2.0

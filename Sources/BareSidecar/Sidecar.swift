@@ -66,6 +66,14 @@ public final class Sidecar: AsyncSequence, @unchecked Sendable {
     Bundle.module.url(forResource: "bare", withExtension: nil)
   }
 
+  /// The versions of the components bundled with this package, such as
+  /// `bare` for the Bare executable.
+  public static let versions: [String: String] = {
+    let url = Bundle.module.url(forResource: "versions", withExtension: "json")!
+
+    return try! JSONDecoder().decode([String: String].self, from: Data(contentsOf: url))
+  }()
+
   /// Starts `entry` in a Bare process with an IPC connection to it.
   ///
   /// - Parameters:
@@ -141,7 +149,7 @@ public final class Sidecar: AsyncSequence, @unchecked Sendable {
 
     return Sidecar(
       process: process,
-      connection: Connection(fd),
+      connection: Connection(fd) { _ = await termination.value },
       termination: termination,
       stdio: (
         (standardInput as? Pipe)?.fileHandleForWriting,

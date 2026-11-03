@@ -117,4 +117,29 @@ final class SidecarTests: XCTestCase {
     }
   }
 
+  func testEndsOnceTheProcessHasExited() async throws {
+    let sidecar = try await Sidecar.spawn(fixture("end-exit.js"))
+
+    for try await _ in sidecar {}
+
+    XCTAssertEqual(kill(sidecar.pid, 0), -1)
+    XCTAssertEqual(errno, ESRCH)
+
+    let termination = await sidecar.wait()
+    XCTAssertEqual(termination, .exit(3))
+  }
+
+  func testBundlesTheBareVersion() async throws {
+    let sidecar = try await Sidecar.spawn(fixture("version.js"))
+
+    var received = Data()
+
+    for try await data in sidecar {
+      received.append(data)
+    }
+
+    XCTAssertEqual(String(decoding: received, as: UTF8.self), "v" + Sidecar.versions["bare"]!)
+
+    await sidecar.wait()
+  }
 }
