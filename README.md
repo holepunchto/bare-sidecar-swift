@@ -30,7 +30,7 @@ await sidecar.close()
 Where `app.js` is a Bare entry point using `Bare.IPC`:
 
 ```js
-Bare.IPC.on("data", (data) => Bare.IPC.write(data));
+Bare.IPC.on('data', (data) => Bare.IPC.write(data))
 ```
 
 ### Versions
