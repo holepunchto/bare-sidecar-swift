@@ -13,4 +13,4 @@ jobs:
       - uses: holepunchto/actions/swift-base@v1
       - uses: holepunchto/actions/publish-swift@v1
         with:
-          asset: Bare.artifactbundle.zip
+          assets: Bare.artifactbundle.zip
